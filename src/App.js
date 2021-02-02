@@ -1,6 +1,6 @@
 import React, { useState, Component } from 'react';
 // import Radium, { StyleRoot } from 'radium';
-import './App.css';
+import classes from './App.css';
 import Person from './Person/Person';
 import person from './Person/Person';
 
@@ -113,19 +113,19 @@ class App extends Component
             }
         }
 
-        const classes = [];
+        const textClasses = [];
         if (this.state.persons.length <= 2) {
-            classes.push('red');
+            textClasses.push(classes.red);
         }
         if (this.state.persons.length <= 1) {
-            classes.push('bold');
+            textClasses.push(classes.bold);
         }
 
         return (
             // <StyleRoot>
-                <div className="App">
+                <div className={classes.App}>
                     <h1>This is a React App</h1>
-                    <p className={classes.join(' ')}>This is really working!</p>
+                    <p className={textClasses.join(' ')}>This is really working!</p>
                     <button style={style} onClick={this.togglePersonsHandler}>Switch Name</button>
                     {persons}
                     {/* { this.state.showPersons ?

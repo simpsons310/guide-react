@@ -14,3 +14,10 @@
 .bold {
     font-weight: 700;
 }
+
+@media (min-width: 800px) {
+    .Person {
+      width: 400px;
+    }
+  }
+  

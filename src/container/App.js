@@ -1,8 +1,8 @@
 import React, { useState, Component } from 'react';
 // import Radium, { StyleRoot } from 'radium';
 import classes from './App.css';
-import Person from './Person/Person';
-import person from './Person/Person';
+import Person from '../components/Persons/Person/Person';
+import person from '../components/Persons/Person/Person';
 
 // const App = (props) => {
 //     const [personState, setPersonState] = useState({
@@ -79,19 +79,20 @@ class App extends Component
     }
 
     render() {
-        const style = {
-            backgroundColor: 'green',
-            color: 'white',
-            font: 'inherit',
-            border: '1px solid blue',
-            padding: '8px',
-            ':hover': {
-                backgroundColor: 'lightgreen',
-                color: 'black'
-            }
-        };
+        // const style = {
+        //     backgroundColor: 'green',
+        //     color: 'white',
+        //     font: 'inherit',
+        //     border: '1px solid blue',
+        //     padding: '8px',
+        //     ':hover': {
+        //         backgroundColor: 'lightgreen',
+        //         color: 'black'
+        //     }
+        // };
 
         let persons = null;
+        let buttonClass = '';
 
         if (this.state.showPersons) {
             persons = (
@@ -106,11 +107,12 @@ class App extends Component
                     })}
                 </div>
             );
-            style.backgroundColor = 'red';
-            style[':hover'] = {
-                backgroundColor: 'salmon',
-                color: 'black'
-            }
+            // style.backgroundColor = 'red';
+            // style[':hover'] = {
+            //     backgroundColor: 'salmon',
+            //     color: 'black'
+            // }
+            buttonClass = classes.Red;
         }
 
         const textClasses = [];
@@ -126,7 +128,8 @@ class App extends Component
                 <div className={classes.App}>
                     <h1>This is a React App</h1>
                     <p className={textClasses.join(' ')}>This is really working!</p>
-                    <button style={style} onClick={this.togglePersonsHandler}>Switch Name</button>
+                    {/* <button style={style} onClick={this.togglePersonsHandler}>Toggle Name</button> */}
+                    <button className={buttonClass} onClick={this.togglePersonsHandler}>Toggle Name</button>
                     {persons}
                     {/* { this.state.showPersons ?
                         <div>

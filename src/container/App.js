@@ -20,7 +20,8 @@ class App extends Component
             { id: 'key3', name: 'Person3', age: 24 }
         ],
         showPersons: false,
-        showCockpit: true
+        showCockpit: true,
+        changeCounter: 0
     };
 
     static getDerivedStateFromProps(props, state) {
@@ -59,7 +60,13 @@ class App extends Component
         const persons = [...this.state.persons];
         const person = persons.find(p => p.id === id);
         person.name = event.target.value;
-        this.setState({persons: persons});
+
+        this.setState((prevState, props) => {
+            return {
+                persons: persons,
+                changeCounter: prevState.changeCounter + 1
+            };
+        });
     }
 
     deletePersonHandler = (index) => {

@@ -11,9 +11,9 @@ const burgerIngredient = (props) => {
             break;
         case 'bread-top':
             ingredient = (
-                <div className={classes.BreadBottom}>
-                    <div className={classes.Seed1}></div>
-                    <div className={classes.Seed2}></div>
+                <div className={classes.BreadTop}>
+                    <div className={classes.Seeds1}></div>
+                    <div className={classes.Seeds2}></div>
                 </div>
             );
             break;
@@ -31,9 +31,9 @@ const burgerIngredient = (props) => {
             break;
         default:
             ingredient = null;
-
-        return ingredient;
     }
+
+    return ingredient;
 }
 
 burgerIngredient.propTypes = {

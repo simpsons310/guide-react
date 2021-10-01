@@ -49,6 +49,14 @@ class Blog extends Component {
 
         return (
             <div>
+                <header className={classes.Blog}>
+                    <nav>
+                        <ul>
+                            <li><a href="/">Home</a></li>
+                            <li><a href="/">New</a></li>
+                        </ul>
+                    </nav>
+                </header>
                 <section className={classes.Posts}>
                     {posts}
                 </section>

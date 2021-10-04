@@ -11,6 +11,10 @@ class NewPost extends Component {
         submitted: false
     }
 
+    componentDidMount() {
+        // If un-auth => this.props.history.replace('/posts');
+    }
+
     postDataHandler = () => {
         const data = {
             title: this.state.title,

@@ -1,8 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore } from 'redux';
+
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import reducer from './store/reducer';
+
+const store = createStore(reducer);
 
 ReactDOM.render(<React.StrictMode><App appTitle="Person Manager"/></React.StrictMode>, document.getElementById('root'));
 

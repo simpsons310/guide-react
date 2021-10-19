@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import Aux from '../../hoc/Auxiliary/Auxiliary';
 import Burger from '../../components/Burger/Burger';
 import BuildControls from '../../components/Burger/BuildControls/BuildControls';
@@ -7,6 +9,7 @@ import OrderSummary from '../../components/Burger/OrderSummary/OrderSummary';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import withErrorHandler from '../../hoc/withErrorHandler/withErrorHandler';
 import axios from '../../axios-order';
+import * as actionTypes from '../../store/actions';
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
@@ -18,7 +21,6 @@ const INGREDIENT_PRICES = {
 class BurgerBuilder extends Component
 {
     state = {
-        ingredients: null,
         totalPrice: 0.0,
         purchaseable: false,
         purchasing: false,
@@ -71,7 +73,7 @@ class BurgerBuilder extends Component
         }
         const updatedCounted = oldCount - 1;
         const updatedIngredients = {
-            ...this.state.ingredients
+            ...this.props.ingredients
         };
         updatedIngredients[type] = updatedCounted;
         const priceAddition = INGREDIENT_PRICES[type];
@@ -95,8 +97,8 @@ class BurgerBuilder extends Component
     purchaseContinueHHandler = () => {
         // alert('You continue!');
         const queryParams = [];
-        for (let i in this.state.ingredients) {
-            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i]));
+        for (let i in this.props.ingredients) {
+            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.props.ingredients[i]));
         }
         queryParams.push('price=' + this.state.totalPrice);
         const queryString = queryParams.join('&');
@@ -108,7 +110,7 @@ class BurgerBuilder extends Component
 
     render() {
         const disabledInfo = {
-            ...this.state.ingredients
+            ...this.props.ingredients
         };
         for (let key in disabledInfo) {
             disabledInfo[key] = disabledInfo[key] <= 0;
@@ -116,13 +118,13 @@ class BurgerBuilder extends Component
 
         let orderSummary = null;
         let burger = this.state.error ? <p>Ingredients can't be loaded</p> : <Spinner/>;
-        if (this.state.ingredients) {
+        if (this.props.ingredients) {
             burger = (
                 <Aux>
-                    <Burger ingredients={this.state.ingredients}/>
+                    <Burger ingredients={this.props.ingredients}/>
                     <BuildControls
-                        ingredientAdded={this.addIngredientHandler}
-                        ingredientRemoved={this.removeIngredientHandler}
+                        ingredientAdded={this.props.onIngredientAdded}
+                        ingredientRemoved={this.props.onIngredientRemoved}
                         disabled={disabledInfo}
                         purchaseable={this.state.purchaseable}
                         ordered={this.purchaseHandler}
@@ -132,7 +134,7 @@ class BurgerBuilder extends Component
             );
             orderSummary = <OrderSummary
             price={this.state.totalPrice}
-            ingredients={this.state.ingredients}
+            ingredients={this.props.ingredients}
             purchaseCanceled={this.purchaseCancelHandler}
             purchaseContinued={this.purchaseContinueHHandler}/>;
         }
@@ -150,4 +152,17 @@ class BurgerBuilder extends Component
     }
 }
 
-export default withErrorHandler(BurgerBuilder, axios);
+const mapStateToProps = state => {
+    return {
+        ingredients: state.ingredients
+    };
+}
+
+const mapDispatchToProps = dispatch => {
+    return {
+        onIngredientAdded: (ingredientName) => dispatch({type: actionTypes.ADD_INGREDIENT, ingredientName: ingredientName}),
+        onIngredientRemoved: (ingredientName) => dispatch({type: actionTypes.REMOVE_INGREDIENT, ingredientName: ingredientName})
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(BurgerBuilder, axios));

@@ -50,17 +50,7 @@ class BurgerBuilder extends Component
     }
 
     purchaseContinueHHandler = () => {
-        // alert('You continue!');
-        const queryParams = [];
-        for (let i in this.props.ingredients) {
-            queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.props.ingredients[i]));
-        }
-        queryParams.push('price=' + this.props.price);
-        const queryString = queryParams.join('&');
-        this.props.history.push({
-            pathname: '/checkout',
-            search: queryString
-        });
+        this.props.history.push('/checkout');
     }
 
     render() {

@@ -19,7 +19,7 @@ class BurgerBuilder extends Component
     }
 
     componentDidMount() {
-
+        this.props.onInitIngredients();
     }
 
     updatePurchaseState(ingredients) {
@@ -55,7 +55,7 @@ class BurgerBuilder extends Component
         };
 
         let orderSummary = null;
-        let burger = this.state.error ? <p>Ingredients can't be loaded</p> : <Spinner/>;
+        let burger = this.props.error ? <p>Ingredients can't be loaded</p> : <Spinner/>;
         if (this.props.ingredients) {
             burger = (
                 <Aux>
@@ -90,14 +90,16 @@ class BurgerBuilder extends Component
 const mapStateToProps = state => {
     return {
         ingredients: state.ingredients,
-        price: state.totalPrice
+        price: state.totalPrice,
+        error: state.error
     };
 }
 
 const mapDispatchToProps = dispatch => {
     return {
         onIngredientAdded: (ingredientName) => dispatch(burgerBuliderActions.addIngredient(ingredientName)),
-        onIngredientRemoved: (ingredientName) => dispatch(burgerBuliderActions.removeIngredient(ingredientName))
+        onIngredientRemoved: (ingredientName) => dispatch(burgerBuliderActions.removeIngredient(ingredientName)),
+        onInitIngredients: () => dispatch(burgerBuliderActions.initIngredients())
     }
 }
 

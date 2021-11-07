@@ -2,11 +2,12 @@ const path = require('path');
 const autoprefixer = require('autoprefixer');
 
 module.exports = {
-    devtools: 'cheap-module-evel-source-map',
+    devtool: 'eval-cheap-module-source-map',
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js',
+        chunkFilename: '[id].js',
         publicPath: '',
     },
     resolve: {
@@ -22,7 +23,7 @@ module.exports = {
             {
                 test: /\.css$/,
                 exclude: /node_modules/,
-                user: [
+                use: [
                     { loader: 'style-loader' },
                     {
                         loader: 'css-loader',

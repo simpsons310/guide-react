@@ -42,7 +42,6 @@ class App extends Component {
                     onExit={() => console.log('onExit')}
                     onExiting={() => console.log('onExiting')}
                     onExited={() => console.log('onExited')}
-
                 >
                     {state => (
                         <div style={{

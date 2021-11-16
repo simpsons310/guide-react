@@ -13,14 +13,14 @@ const Todo = props => {
                 const todoData = result.data;
                 const todos = [];
                 for (const key in todoData) {
-                    todoList.push({
+                    todos.push({
                         id: key,
                         name: todoData[key].name
                     });
                 }
                 setTodoList(todos);
             });
-    });
+    }, []);
 
     const inputChangeHandler = (event) => {
         setTodoName(event.target.value);

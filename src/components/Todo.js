@@ -1,11 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useReducer } from 'react';
 import axios from 'axios';
 
 const Todo = props => {
     const [todoName, setTodoName] = useState('');
     const [submittedTodo, setSubmittedTodo] = useState(null);
-    const [todoList, setTodoList] = useState([]);
+    // const [todoList, setTodoList] = useState([]);
     // const [todoState, setTodoState] = useState({ userInput: '', todoList: [] });
+
+    const todoListReducer = (state, action) => {
+        switch (action.type) {
+            case 'ADD':
+                return state.concat(action.payload);
+            case 'SET':
+                return action.payload;
+            case 'REMOVE':
+                return state.filter((todo) => todo.id !== action.payload.id);
+            default:
+                return state;
+        }
+    };
 
     useEffect(() => {
         axios.get('https://react-guide-41949-default-rtdb.asia-southeast1.firebasedatabase.app/todos.json')
@@ -19,7 +32,8 @@ const Todo = props => {
                         name: todoData[key].name
                     });
                 }
-                setTodoList(todos);
+                // setTodoList(todos);
+                dispatch({type: 'ADD', payload: todos});
             });
 
         return () => {
@@ -31,6 +45,8 @@ const Todo = props => {
         console.log(event.clientX, event.clientY);
     };
 
+    const [todoList, dispatch] = useReducer(todoListReducer, []);
+
     useEffect(() => {
         document.addEventListener('mousemove', mouseMoveHandler);
         return () => {
@@ -40,7 +56,8 @@ const Todo = props => {
 
     useEffect(() => {
         if (submittedTodo) {
-            setTodoList(todoList.concat(submittedTodo));
+            // setTodoList(todoList.concat(submittedTodo));
+            dispatch({type: 'ADD', payload: submittedTodo});
         }
     }, [submittedTodo]);
 
